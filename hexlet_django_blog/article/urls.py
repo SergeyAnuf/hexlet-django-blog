@@ -1,7 +1,7 @@
 from django.urls import path
-from hexlet_django_blog.article import views
-from .views import ArticleIndexView
+from .views import index  # Импортируем нашу функцию index
 
 urlpatterns = [
-    path('', ArticleIndexView.as_view(), name='article_index'),
+    # Новый маршрут для статей с параметрами
+    path('<str:tags>/<int:article_id>/', index, name='article'),
 ]

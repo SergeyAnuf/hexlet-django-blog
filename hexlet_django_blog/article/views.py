@@ -1,9 +1,4 @@
-from django.views import View
-from django.shortcuts import render
+from django.http import HttpResponse
 
-class ArticleIndexView(View):
-    template_name = 'articles/index.html'  # Можно вынести в атрибут класса
-    
-    def get(self, request, *args, **kwargs):
-        context = {'app_name': 'Articles'}  # Формируем контекст
-        return render(request, self.template_name, context)
+def index(request, tags, article_id):
+    return HttpResponse(f"Статья номер {article_id}. Тег {tags}")

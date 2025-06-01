@@ -15,13 +15,19 @@ Including another URLconf
     2. Add a URL to urlpatterns:  path('blog/', include('blog.urls'))
 """
 from django.contrib import admin
-from django.urls import path, include
+from django.urls import path, include, reverse
+from django.shortcuts import redirect
 from hexlet_django_blog import views
-from .views import IndexView
+
+# Функция для редиректа с домашней страницы
+def home_redirect(request):
+    # Генерируем URL через reverse с параметрами
+    article_url = reverse('article', kwargs={'tags': 'python', 'article_id': 42})
+    return redirect(article_url)
 
 urlpatterns = [
     path('admin/', admin.site.urls),
-    path('', IndexView.as_view(), name='index'),
+    path('', home_redirect, name='index'),  # Редирект с главной
     path("about/", views.about),
     path("articles/", include("hexlet_django_blog.article.urls")),
 ]
