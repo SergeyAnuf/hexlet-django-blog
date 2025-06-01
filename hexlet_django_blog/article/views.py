@@ -1,8 +1,9 @@
+from django.views import View
 from django.shortcuts import render
 
-# Create your views here.
-from django.http import HttpResponse
-
-
-def index(request):
-    return HttpResponse("article")
+class ArticleIndexView(View):
+    template_name = 'articles/index.html'  # Можно вынести в атрибут класса
+    
+    def get(self, request, *args, **kwargs):
+        context = {'app_name': 'Articles'}  # Формируем контекст
+        return render(request, self.template_name, context)
