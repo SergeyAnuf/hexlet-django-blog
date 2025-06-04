@@ -21,13 +21,25 @@ from hexlet_django_blog import views
 
 # Функция для редиректа с домашней страницы
 def home_redirect(request):
-    # Генерируем URL через reverse с параметрами
-    article_url = reverse('article', kwargs={'tags': 'python', 'article_id': 42})
-    return redirect(article_url)
+    # Используем существующую статью или создаем по умолчанию
+    try:
+        # Пытаемся получить первую статью
+        first_article = Article.objects.first()
+        if first_article:
+            article_url = reverse('article', kwargs={
+                'tags': 'python', 
+                'article_id': first_article.id
+            })
+            return redirect(article_url)
+    except:
+        pass
+    
+    # Если статей нет - редиректим на список статей
+    return redirect('articles_index')
 
 urlpatterns = [
     path('admin/', admin.site.urls),
     path('', home_redirect, name='index'),  # Редирект с главной
-    path("about/", views.about),
+    path("about/", views.about, name='about'),
     path("articles/", include("hexlet_django_blog.article.urls")),
 ]
