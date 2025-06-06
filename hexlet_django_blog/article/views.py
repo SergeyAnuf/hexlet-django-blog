@@ -35,3 +35,18 @@ class ArticleCommentsView(View):
         )
 
         return render(...)
+    
+
+class ArticleFormCreateView(View):
+    def get(self, request, *args, **kwargs):
+        form = ArticleForm()
+        return render(request, "articles/create.html", {"form": form})
+    
+
+    def post(self, request, *args, **kwargs):
+        form = ArticleForm(request.POST)
+        if form.is_valid(): # Если данные корректные, то сохраняем данные формы
+            form.save()
+            return redirect('articles') # Редирект на указанный маршрут
+        # Если данные некорректные, то возвращаем человека обратно на страницу с заполненной формой
+        return render(request, 'articles/create.html', {'form': form})    
