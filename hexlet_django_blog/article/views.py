@@ -1,5 +1,6 @@
 from django.shortcuts import render, get_object_or_404
 from django.views import View
+from .forms import ArticleForm
 
 from hexlet_django_blog.article.models import Article
 
@@ -47,6 +48,6 @@ class ArticleFormCreateView(View):
         form = ArticleForm(request.POST)
         if form.is_valid(): # Если данные корректные, то сохраняем данные формы
             form.save()
-            return redirect('articles') # Редирект на указанный маршрут
+            return redirect('articles/') # Редирект на указанный маршрут
         # Если данные некорректные, то возвращаем человека обратно на страницу с заполненной формой
         return render(request, 'articles/create.html', {'form': form})    
